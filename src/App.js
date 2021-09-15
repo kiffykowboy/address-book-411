@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Users } from "./Users"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+console.clear();
 
-export default App;
+const URL = "https://randomuser.me/api?results=25"
+
+export default class App extends Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      users: [],
+      isHidden: false
+    }
+  }
+
+  async componentDidMount(){
+    let response = await fetch(URL);
+    let json = await response.json();
+    let { results } = json;
+
+    this.setState({
+      users: results
+    });
+  }
+
+
+  render() {
+  
+    return( 
+        <ol className="App">
+            <Users people={this.state.users} isHidden={this.state.isHidden}/>
+         </ol>
+    );
+  }
+  }
+  
+  
